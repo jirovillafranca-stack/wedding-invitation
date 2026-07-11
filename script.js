@@ -196,6 +196,91 @@ const muteBtn = document.getElementById("musicToggle");
 
 if (music && muteBtn) {
   const START_TIME = 60;
+  const END_TIME = 102;
+  const shouldStartMusic = new URLSearchParams(window.location.search).has("playMusic");
+
+  music.volume = 1;
+
+  function updateMusicButton() {
+    const isPlaying = !music.paused;
+    const isMuted = music.muted || music.volume === 0;
+    muteBtn.textContent = isPlaying ? (isMuted ? "🔇" : "🔊") : "▶";
+    muteBtn.setAttribute(
+      "aria-label",
+      isPlaying ? (isMuted ? "Unmute background music" : "Mute background music") : "Play background music"
+    );
+    muteBtn.title = muteBtn.getAttribute("aria-label");
+  }
+
+  function seekToMusicStart() {
+    if (Number.isFinite(music.duration) && music.duration <= START_TIME) return false;
+    music.currentTime = START_TIME;
+    return true;
+  }
+
+  async function playMusicSegment({ restart = false, fromUserGesture = false } = {}) {
+    // Call play immediately during a tap/click so mobile browsers retain the
+    // user gesture permission while the audio metadata finishes loading.
+    const directPlayAttempt = fromUserGesture ? music.play() : null;
+
+    if (music.readyState < HTMLMediaElement.HAVE_METADATA) {
+      await new Promise((resolve) => {
+        music.addEventListener("loadedmetadata", resolve, { once: true });
+        music.addEventListener("error", resolve, { once: true });
+      });
+    }
+
+    if (music.error) return;
+
+    if (restart || music.currentTime < START_TIME || music.currentTime >= END_TIME) {
+      if (!seekToMusicStart()) return;
+    }
+
+    try {
+      await (directPlayAttempt || music.play());
+    } catch (error) {
+      // The control becomes a Play button if the browser requires a direct tap.
+      console.info("Background music is waiting for a user interaction.", error);
+    }
+    updateMusicButton();
+  }
+
+  music.addEventListener("timeupdate", () => {
+    if (music.currentTime >= END_TIME) {
+      seekToMusicStart();
+      music.play().catch(updateMusicButton);
+    }
+  });
+
+  music.addEventListener("ended", () => playMusicSegment({ restart: true }));
+  music.addEventListener("play", updateMusicButton);
+  music.addEventListener("pause", updateMusicButton);
+  music.addEventListener("volumechange", updateMusicButton);
+
+  muteBtn.addEventListener("click", () => {
+    if (music.paused) {
+      playMusicSegment({ fromUserGesture: true });
+      return;
+    }
+    music.muted = !music.muted;
+  });
+
+  // If autoplay after opening the invitation is blocked, the guest's first
+  // touch anywhere on the details page starts the music without another prompt.
+  document.addEventListener("pointerdown", () => {
+    if (music.paused) playMusicSegment({ restart: true, fromUserGesture: true });
+  }, { once: true });
+
+  updateMusicButton();
+  if (shouldStartMusic) playMusicSegment({ restart: true });
+}
+
+
+const music = document.getElementById("bgMusic");
+const muteBtn = document.getElementById("musicToggle");
+
+if (music && muteBtn) {
+  const START_TIME = 60;
   const END_TIME = 154;
   const shouldStartMusic = new URLSearchParams(window.location.search).has("playMusic");
 
