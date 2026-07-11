@@ -187,7 +187,7 @@ a {
 }
 
 .landing-overlay {
-  height: 87vh;
+  height: 85vh;
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -589,12 +589,51 @@ a {
 }
 
 @media (max-width: 768px) {
+  .landing-overlay {
+    height: 95vh;
+  }
+
   .landing-page {
     height: 100svh;
     min-height: 100svh;
     padding: 0;
+    background-image: url("pictures/landing-page-picture2.png");
+    background-color: #f7efe2;
     background-size: contain;
     background-repeat: no-repeat;
+  }
+
+  .landing-page::before,
+  .landing-page::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 12vh;
+    background-image: url("pictures/save-the-date.PNG");
+    background-size: 90px auto;
+    background-repeat: repeat;
+    background-position: center;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .landing-page::before {
+    top: 0;
+  }
+
+  .landing-page::after {
+    bottom: 0;
+  }
+
+  .landing-page.section {
+    padding: 0;
+    background-size: 100% 100%;
+  }
+
+  .landing-page::before,
+  .landing-page::after {
+    display: none;
   }
 
   .site-footer {
