@@ -275,7 +275,7 @@ if (music && muteBtn) {
   if (shouldStartMusic) playMusicSegment({ restart: true });
 }
 
-
+/* Disabled duplicate legacy music block retained below from a prior edit.
 const music = document.getElementById("bgMusic");
 const muteBtn = document.getElementById("musicToggle");
 
@@ -344,3 +344,4 @@ if (music && muteBtn) {
   updateMusicButton();
   if (shouldStartMusic) playMusicSegment({ restart: true });
 }
+*/
