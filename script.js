@@ -259,3 +259,38 @@ if (music && muteBtn) {
   updateMusicButton();
   if (shouldStartMusic) playMusicSegment({ restart: true });
 }
+
+const pageLoader = document.getElementById('pageLoader');
+
+function waitForImage(image) {
+  if (!image.currentSrc && !image.src) return Promise.resolve();
+  if (image.complete) return Promise.resolve();
+
+  return new Promise((resolve) => {
+    image.addEventListener('load', resolve, { once: true });
+    image.addEventListener('error', resolve, { once: true });
+  });
+}
+
+function waitForBackgroundMusic() {
+  if (!music || music.readyState >= HTMLMediaElement.HAVE_ENOUGH_DATA) {
+    return Promise.resolve();
+  }
+
+  return new Promise((resolve) => {
+    music.addEventListener('canplaythrough', resolve, { once: true });
+    music.addEventListener('error', resolve, { once: true });
+  });
+}
+
+function revealInvitation() {
+  document.body.classList.remove('is-loading');
+  if (pageLoader) pageLoader.setAttribute('aria-hidden', 'true');
+}
+
+if (pageLoader) {
+  const imageLoads = Array.from(document.images).map(waitForImage);
+  const pageLoad = new Promise((resolve) => window.addEventListener('load', resolve, { once: true }));
+
+  Promise.all([pageLoad, waitForBackgroundMusic(), ...imageLoads]).then(revealInvitation);
+}
