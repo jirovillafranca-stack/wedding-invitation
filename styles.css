@@ -187,7 +187,7 @@ a {
 }
 
 .landing-overlay {
-  height: 85vh;
+  height: 87vh;
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -198,13 +198,12 @@ a {
 
 .landing-button {
   display: inline-block;
-  padding: 0.8rem 1.2rem;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.9);
-  color: var(--accent-dark);
+  padding: 0.25rem;
+  color: #fffdf7;
   font-weight: 700;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(8px);
+  text-decoration: underline;
+  text-underline-offset: 0.25rem;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.55);
 }
 
 .hero-kicker,
@@ -590,6 +589,14 @@ a {
 }
 
 @media (max-width: 768px) {
+  .landing-page {
+    height: 100svh;
+    min-height: 100svh;
+    padding: 0;
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+
   .site-footer {
     padding: 0.8rem 0.75rem 1.25rem;
   }
