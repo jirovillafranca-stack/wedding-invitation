@@ -39,6 +39,8 @@ function showSection(targetId) {
     section.classList.toggle('active', section === targetSection);
   });
 
+  loadSectionAssets(targetId);
+
   const nextHash = targetId ? `#${targetId}` : '#home';
 
   // File previews run each local page in an isolated origin, where rewriting
@@ -74,12 +76,6 @@ window.addEventListener('hashchange', () => {
   }
 });
 
-const initialRequestedId = window.location.hash ? window.location.hash.slice(1) : '';
-const initialTargetId = initialRequestedId || (document.getElementById('landing') ? 'landing' : 'home');
-const initialTargetSection = document.getElementById(initialTargetId);
-
-showSection(initialTargetSection && initialTargetSection.classList.contains('page-section') ? initialTargetId : (document.getElementById('home') ? 'home' : 'landing'));
-
 const slideshowImages = [
   'IMG_7066.PNG', 'IMG_7070.JPG', 'IMG_7073.JPG', 'IMG_7075.JPG',
   'IMG_7076.JPG', 'IMG_7077.JPG', 'IMG_7079.JPG', 'MHK00231.jpg',
@@ -95,7 +91,10 @@ if (heroSlideshow) {
   const slides = slideshowImages.map((imageName, index) => {
     const image = document.createElement('img');
     image.className = `hero-slide${index === 0 ? ' active' : ''}`;
-    image.src = `pictures/slide-show-pictures/${imageName}`;
+    image.dataset.src = `pictures/slide-show-pictures/${imageName}`;
+    if (index === 0) image.src = image.dataset.src;
+    image.fetchPriority = index === 0 ? 'high' : 'low';
+    image.decoding = 'async';
     image.alt = '';
     heroSlideshow.appendChild(image);
     return image;
@@ -105,6 +104,9 @@ if (heroSlideshow) {
   window.setInterval(() => {
     slides[activeSlide].classList.remove('active');
     activeSlide = (activeSlide + 1) % slides.length;
+    if (!slides[activeSlide].hasAttribute('src')) {
+      slides[activeSlide].src = slides[activeSlide].dataset.src;
+    }
     slides[activeSlide].classList.add('active');
   }, 5000);
 }
@@ -165,12 +167,15 @@ clickableImages.forEach((img) => {
 });
 
 const galleryGrid = document.getElementById('gallery-grid');
+let galleryRendered = false;
 
-if (galleryGrid) {
+function renderGallery() {
+  if (!galleryGrid || galleryRendered) return;
+
   galleryImages.forEach((imageName) => {
     const card = document.createElement('figure');
     card.className = 'gallery-card';
-    card.innerHTML = `<img src="pictures/slide-show-pictures/${imageName}" alt="Wedding memory" />`;
+    card.innerHTML = `<img src="pictures/slide-show-pictures/${imageName}" alt="Wedding memory" loading="lazy" />`;
     card.addEventListener('click', () => {
       lightboxImage.src = `pictures/${imageName}`;
       lightbox.classList.add('active');
@@ -178,7 +183,26 @@ if (galleryGrid) {
     });
     galleryGrid.appendChild(card);
   });
+  galleryRendered = true;
 }
+
+function loadSectionAssets(targetId) {
+  const section = document.getElementById(targetId);
+  if (!section) return;
+
+  section.querySelectorAll('img[data-deferred-src]').forEach((image) => {
+    image.src = image.dataset.deferredSrc;
+    image.removeAttribute('data-deferred-src');
+  });
+
+  if (targetId === 'gallery') renderGallery();
+}
+
+const initialRequestedId = window.location.hash ? window.location.hash.slice(1) : '';
+const initialTargetId = initialRequestedId || (document.getElementById('landing') ? 'landing' : 'home');
+const initialTargetSection = document.getElementById(initialTargetId);
+
+showSection(initialTargetSection && initialTargetSection.classList.contains('page-section') ? initialTargetId : (document.getElementById('home') ? 'home' : 'landing'));
 
 const form = document.getElementById('rsvp-form');
 const googleFormUrl = 'https://forms.gle/U5EeXLwh2Fc7oNsY9';
