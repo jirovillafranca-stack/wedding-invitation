@@ -198,12 +198,13 @@ a {
 
 .landing-button {
   display: inline-block;
-  padding: 0.25rem;
-  color: #fffdf7;
+  padding: 0.8rem 1.4rem;
+  border-radius: 999px;
+  background: #f3e9b9;
+  color: var(--accent-dark);
   font-weight: 700;
-  text-decoration: underline;
-  text-underline-offset: 0.25rem;
-  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.55);
+  text-decoration: none;
+  box-shadow: 0 8px 20px rgba(77, 62, 31, 0.22);
 }
 
 .hero-kicker,
@@ -590,7 +591,7 @@ a {
 
 @media (max-width: 768px) {
   .landing-overlay {
-    height: 95vh;
+    height: 97vh;
   }
 
   .landing-page {
