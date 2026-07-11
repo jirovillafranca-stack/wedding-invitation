@@ -37,7 +37,7 @@ main {
 
 .hero-content .hashtag {
   display: inline-block;
-  margin-top: 1rem;
+  margin-top: 0;
   padding: 0.5rem 0.9rem;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.82);
@@ -123,9 +123,10 @@ a {
 }
 
 .hero {
+  --hero-frame-inset: clamp(24px, 4vw, 34px);
   display: none;
   min-height: 72vh;
-  padding: 20px;
+  padding: 0;
   background: #f7e6b5;
   
   position: relative;
@@ -173,20 +174,29 @@ a {
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
+  box-sizing: border-box;
+  width: auto;
+  margin: var(--hero-frame-inset);
+  padding: 1rem;
+  gap: clamp(0.35rem, 1.5vh, 0.8rem);
   text-align: center;
-  min-height: 100%;
-  /* padding: 2rem 2rem 3rem; */
+  min-height: 0;
+}
+
+.hero-content p,
+.hero h1 {
+  margin: 0;
 }
 
 .hero::after {
   content: "";
   position: absolute;
-  inset: 24px;
+  inset: var(--hero-frame-inset);
   border: 1px solid rgba(255, 255, 255, 0.45);
   border-radius: 24px;
   pointer-events: none;
   z-index: 3;
-   margin:10px;
+  margin: 0;
 }
 
 .landing-page {
@@ -249,7 +259,7 @@ a {
 
 .hero h1 span {
   display: inline-block;
-  margin: 0.5rem 0;
+  margin: 0 0.2rem;
   font-size: 0.75em;
 }
 
@@ -831,7 +841,49 @@ body:has(#home.active) #home {
     box-shadow:0 10px 30px rgba(0,0,0,.2);
 }
 
-.video-container iframe{
+/* Stays available while the guest scrolls through every invitation section. */
+#musicToggle {
+  position: fixed;
+  top: 1.5rem;
+  left: 1.5rem;
+  z-index: 1000;
+  display: grid;
+  width: 68px;
+  height: 68px;
+  place-items: center;
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), #f0c96e);
+  box-shadow: 0 8px 24px rgba(77, 62, 31, 0.32);
+  color: #fff;
+  cursor: pointer;
+  font-size: 2rem;
+  line-height: 1;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#musicToggle:hover {
+  transform: translateY(-3px) scale(1.04);
+  box-shadow: 0 12px 28px rgba(77, 62, 31, 0.4);
+}
+
+#musicToggle:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 3px;
+}
+
+@media (max-width: 600px) {
+  #musicToggle {
+    top: 1rem;
+    left: 1rem;
+    width: 40px;
+    height: 40px;
+    font-size: 1.7rem;
+  }
+}
+
+.video-container iframe,
+.video-container video {
     width:100%;
     aspect-ratio:16/9;
     border:none;
@@ -842,7 +894,8 @@ body:has(#home.active) #home {
     padding: 0;
 }
 
-.video-section iframe {
+.video-section iframe,
+.video-section video {
     display: block;
     width: 100%;
     aspect-ratio: 16 / 9;

@@ -41,7 +41,9 @@ function showSection(targetId) {
 
   const nextHash = targetId ? `#${targetId}` : '#home';
 
-  if (window.location.hash !== nextHash) {
+  // File previews run each local page in an isolated origin, where rewriting
+  // the URL can be blocked. The section can still change without the hash.
+  if (window.location.protocol !== 'file:' && window.location.hash !== nextHash) {
     window.history.replaceState(null, '', nextHash);
   }
 }
@@ -186,4 +188,74 @@ if (form) {
     event.preventDefault();
     window.location.href = googleFormUrl;
   });
+}
+
+
+const music = document.getElementById("bgMusic");
+const muteBtn = document.getElementById("musicToggle");
+
+if (music && muteBtn) {
+  const START_TIME = 60;
+  const END_TIME = 154;
+  const shouldStartMusic = new URLSearchParams(window.location.search).has("playMusic");
+
+  music.volume = 1;
+
+  function updateMusicButton() {
+    const isPlaying = !music.paused;
+    const isMuted = music.muted || music.volume === 0;
+    muteBtn.textContent = isPlaying ? (isMuted ? "🔇" : "🔊") : "▶";
+    muteBtn.setAttribute(
+      "aria-label",
+      isPlaying ? (isMuted ? "Unmute background music" : "Mute background music") : "Play background music"
+    );
+    muteBtn.title = muteBtn.getAttribute("aria-label");
+  }
+
+  function seekToMusicStart() {
+    if (Number.isFinite(music.duration) && music.duration <= START_TIME) return false;
+    music.currentTime = START_TIME;
+    return true;
+  }
+
+  async function playMusicSegment({ restart = false } = {}) {
+    if (music.readyState < HTMLMediaElement.HAVE_METADATA) {
+      await new Promise((resolve) => music.addEventListener("loadedmetadata", resolve, { once: true }));
+    }
+
+    if (restart || music.currentTime < START_TIME || music.currentTime >= END_TIME) {
+      if (!seekToMusicStart()) return;
+    }
+
+    try {
+      await music.play();
+    } catch (error) {
+      // The control becomes a Play button if the browser requires a direct tap.
+      console.info("Background music is waiting for a user interaction.", error);
+    }
+    updateMusicButton();
+  }
+
+  music.addEventListener("timeupdate", () => {
+    if (music.currentTime >= END_TIME) {
+      seekToMusicStart();
+      music.play().catch(updateMusicButton);
+    }
+  });
+
+  music.addEventListener("ended", () => playMusicSegment({ restart: true }));
+  music.addEventListener("play", updateMusicButton);
+  music.addEventListener("pause", updateMusicButton);
+  music.addEventListener("volumechange", updateMusicButton);
+
+  muteBtn.addEventListener("click", () => {
+    if (music.paused) {
+      playMusicSegment();
+      return;
+    }
+    music.muted = !music.muted;
+  });
+
+  updateMusicButton();
+  if (shouldStartMusic) playMusicSegment({ restart: true });
 }
