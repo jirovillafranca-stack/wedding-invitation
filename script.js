@@ -273,13 +273,15 @@ function waitForImage(image) {
 }
 
 function waitForBackgroundMusic() {
-  if (!music || music.readyState >= HTMLMediaElement.HAVE_ENOUGH_DATA) {
+  if (!music || music.readyState >= HTMLMediaElement.HAVE_METADATA) {
     return Promise.resolve();
   }
 
   return new Promise((resolve) => {
-    music.addEventListener('canplaythrough', resolve, { once: true });
+    // Mobile browsers often postpone canplaythrough until the user presses Play.
+    music.addEventListener('loadedmetadata', resolve, { once: true });
     music.addEventListener('error', resolve, { once: true });
+    window.setTimeout(resolve, 4000);
   });
 }
 
@@ -291,6 +293,10 @@ function revealInvitation() {
 if (pageLoader) {
   const imageLoads = Array.from(document.images).map(waitForImage);
   const pageLoad = new Promise((resolve) => window.addEventListener('load', resolve, { once: true }));
+  const maximumLoadTime = new Promise((resolve) => window.setTimeout(resolve, 10000));
 
-  Promise.all([pageLoad, waitForBackgroundMusic(), ...imageLoads]).then(revealInvitation);
+  Promise.race([
+    Promise.all([pageLoad, waitForBackgroundMusic(), ...imageLoads]),
+    maximumLoadTime
+  ]).then(revealInvitation);
 }
