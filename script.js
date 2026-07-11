@@ -78,6 +78,35 @@ const initialTargetSection = document.getElementById(initialTargetId);
 
 showSection(initialTargetSection && initialTargetSection.classList.contains('page-section') ? initialTargetId : (document.getElementById('home') ? 'home' : 'landing'));
 
+const slideshowImages = [
+  'IMG_7066.PNG', 'IMG_7070.JPG', 'IMG_7073.JPG', 'IMG_7075.JPG',
+  'IMG_7076.JPG', 'IMG_7077.JPG', 'IMG_7079.JPG', 'MHK00231.jpg',
+  'MHK00326.jpg', 'MHK00396.jpg', 'MHK00398.jpg', 'MHK00422.jpg',
+  'MHK00438.jpg', 'MHK00568.jpg', 'MHK00731.jpg', 'MHK00745.jpg',
+  'MHK00765.jpg', 'MHK00795.jpg', 'MHK00919.jpg', 'MHK01012.jpg',
+  'MHK01029.jpg', 'MHK01103.jpg', 'MHK01113.jpg', 'MHK01123.jpg'
+];
+
+const heroSlideshow = document.querySelector('.hero-slideshow');
+
+if (heroSlideshow) {
+  const slides = slideshowImages.map((imageName, index) => {
+    const image = document.createElement('img');
+    image.className = `hero-slide${index === 0 ? ' active' : ''}`;
+    image.src = `pictures/slide-show-pictures/${imageName}`;
+    image.alt = '';
+    heroSlideshow.appendChild(image);
+    return image;
+  });
+
+  let activeSlide = 0;
+  window.setInterval(() => {
+    slides[activeSlide].classList.remove('active');
+    activeSlide = (activeSlide + 1) % slides.length;
+    slides[activeSlide].classList.add('active');
+  }, 5000);
+}
+
 const galleryImages = [
   'MHK00326.jpg',
   'MHK00396.jpg',
@@ -139,7 +168,7 @@ if (galleryGrid) {
   galleryImages.forEach((imageName) => {
     const card = document.createElement('figure');
     card.className = 'gallery-card';
-    card.innerHTML = `<img src="pictures/${imageName}" alt="Wedding memory" />`;
+    card.innerHTML = `<img src="pictures/slide-show-pictures/${imageName}" alt="Wedding memory" />`;
     card.addEventListener('click', () => {
       lightboxImage.src = `pictures/${imageName}`;
       lightbox.classList.add('active');

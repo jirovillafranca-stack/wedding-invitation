@@ -11,26 +11,24 @@
 
 <body>
     <main>
-        <section id="home" class="hero section page-section active">
-            <div class="hero-content">
-                <p class="hero-kicker">You are invited</p>
-                <h1>Jiro <span class="heart">&</span> Norma</h1>
-                <p class="hero-date">November 25, 2026</p>
-                <p class="hashtag">#NORMAgicalmomentwithJIRO</p>
-                <br>
-                <div class="countdown-card" aria-label="Wedding countdown">
-                    <p class="countdown-label">The celebration begins in</p>
-                    <div class="countdown" id="countdown">
-                        <div><span id="days">00</span><small>Days</small></div>
-                        <div><span id="hours">00</span><small>Hours</small></div>
-                        <div><span id="minutes">00</span><small>Minutes</small></div>
-                        <div><span id="seconds">00</span><small>Seconds</small></div>
-                    </div>
+        <section id="home" class="home page-section active">
+            <div class="hero section">
+                <div class="hero-slideshow" aria-hidden="true"></div>
+                <div class="hero-content">
+                    <p class="hero-kicker">You are invited</p>
+                    <h1>Jiro <span class="heart">&</span> Norma</h1>
+                    <p class="hero-date">November 25, 2026</p>
+                    <p class="hashtag">#NORMAgicalmomentwithJIRO</p>
                 </div>
-                <p><a class="button primary" href="https://forms.gle/U5EeXLwh2Fc7oNsY9" target="_blank"
-                        rel="noopener noreferrer">RSVP</a></p>
             </div>
-
+            <div class="countdown-card" aria-label="Wedding countdown">
+                <div class="countdown" id="countdown">
+                    <div><span id="days">00</span><small>Days</small></div>
+                    <div><span id="hours">00</span><small>Hours</small></div>
+                    <div><span id="minutes">00</span><small>Minutes</small></div>
+                    <div><span id="seconds">00</span><small>Seconds</small></div>
+                </div>
+            </div>
         </section>
 
         <section id="story" class="section story page-section">
@@ -124,6 +122,8 @@
                     <h3>Ceremony</h3>
                     <p><strong>2:00 PM</strong></p>
                     <p>St. John Baptist Church<br />Calamba City Laguna</p>
+                    <p><a href="https://maps.app.goo.gl/bKAA8yiAiLRaQA897" target="_blank"
+                            rel="noopener noreferrer">View on Maps</a></p>
                 </article>
                 <article class="detail-card">
                     <img src="pictures/alka-resorts.jpg" alt="Reception venue" />
@@ -131,6 +131,8 @@
                     <p><strong>6:00 PM</strong></p>
                     <p>Alka Resort & Events Place<br />Along National Highway, Brgy. Bucal Calamba City, Laguna,
                         Calamba, Philippines, 4027</p>
+                    <p><a href="https://maps.app.goo.gl/5YDZP7eE2ABwokTF8" target="_blank"
+                            rel="noopener noreferrer">View on Maps</a></p>
                 </article>
                 <article class="detail-card">
                     <img src="pictures/butter-yellow.jpg" alt="Dress code inspiration" />
@@ -148,8 +150,27 @@
         <section id="gallery" class="section gallery page-section">
             <div class="section-heading">
                 <p class="eyebrow">Gallery</p>
-                <h2>Moments we treasure</h2>
+               
             </div>
+            <section id="video" class="video-section">
+                <div class="section-heading">
+                    <h2>Our Save The Date Film</h2>
+                </div>
+
+                <div class="video-container">
+                    <!-- <iframe src="./pictures/Jiro & Norma_STD 4K.mp4" allow="autoplay"></iframe> -->
+                    <iframe
+    src="https://drive.google.com/file/d/1xm2UTPbCmbCKTylPa4Bgafst1XXWHLOz/preview"
+    width="100%"
+    height="500"
+    style="border:0;"
+    allow="autoplay"
+    >
+</iframe>
+                </div>
+            </section>
+            <br>
+             <h2>Moments we treasure</h2>
             <div class="gallery-grid" id="gallery-grid"></div>
         </section>
 
@@ -167,21 +188,22 @@
 
         <section id="registry" class="section registry page-section">
             <div class="section-heading">
-                <p class="eyebrow">Gift Registry</p>
-                <h2>Your presence is our greatest gift</h2>
+                <h2>Wedding Details</h2>
             </div>
             <div class="registry-card">
-                <p>
-                    If you would like to honor us with a gift, we have prepared a small registry of essentials for our
-                    new home.
-                    Contributions are deeply appreciated and will be cherished.
+                <p>With all that we have, we've been truly
+                    blessed<br>
+                    your presence and prayers are all that we request<br>
+                    but if you desire to give nonetheless, <br>monetary gift is one we request.</p>
                 </p>
-                <ul>
-                    <li>Home essentials</li>
-                    <li>Kitchenware</li>
-                    <li>Travel experiences</li>
-                    <li>Donation to a favorite charity</li>
-                </ul>
+            </div>
+            <br>
+            <div class="registry-card">
+                <p>With all that we have, we've been truly
+                    blessed<br>
+                    your presence and prayers are all that we request<br>
+                    but if you desire to give nonetheless, <br>monetary gift is one we request.</p>
+                </p>
             </div>
         </section>
 
@@ -192,43 +214,74 @@
             </div>
             <div class="faq-list">
                 <details>
-                    <summary>Is parking available?</summary>
-                    <p>Yes, complimentary parking is available at both the chapel and reception venue.</p>
+                    <summary>When is the RSVP deadline?</summary>
+                    <p>The favor of a reply is requested on or before <b>October 25, 2026</b> so we can add you on our
+                        final guest list</p>
                 </details>
                 <details>
-                    <summary>Are children welcome?</summary>
-                    <p>NOOOOOO.</p>
+                    <summary>What time should I arrive?</summary>
+                    <p>Help us get the ceremony started as scheduled! We recommend guests to arrive 30mins before the
+                        start of the ceremony to make sure everyone is seated on time and that is around 1:00-1:45pm.
+                    </p>
                 </details>
                 <details>
-                    <summary>Can I bring a guest?</summary>
-                    <p>Please indicate your guest in your RSVP so we can prepare accordingly.</p>
+                    <summary>Can i bring plus one?</summary>
+                    <p>Our celebration is strictly RSVP only. We will only be able to accommodate those listed on our
+                        wedding invitation.</p>
                 </details>
+                <details>
+                    <summary>Can I sit anywhere at the reception?</summary>
+                    <p>No. We have a designated seating arrangement which is meant for everyone's convenience.</p>
+                </details>
+                <details>
+                    <summary>I still have questions. What is the best way to contact you?</summary>
+                    <p>You may reach out us via our social media accounts (Facebook, instagram) or you may text/call us
+                        at these number: 09397374871 | jiro.villafranca@gmail.com |
+                        https://web.facebook.com/krljrcvllfrnc</p>
+                </details>
+                <details>
+                    <summary>I already confirmed YES to the RSVP<br>However, I cannot attend anymore due to unforeseen
+                        event.<br>What should I do?</summary>
+                    <p>It would be sad for us that you can no longer attend our wedding event as we have specifically
+                        invited those who are close to our hearts. However, we understand that there may be such
+                        circumstances. We ask that please do let us know as soon as possible so we can still give your
+                        alloted seat to other guest.</p>
+                </details>
+
+                <details>
+                    <summary>I intially said NO to the RSVP but had change of plans - i can attend now. <br>What should
+                        I do?</summary>
+                    <p>Please let us know as soon as possible. <br> Having said that, please understand that we may have
+                        reallocated your seat/s to another guest.<br>
+                        Therefore, we cannot guarantee the same number of seats or one at all</p>
+                </details>
+                <details>
+                    <summary>When is the appropriate time to leave?</summary>
+                    <p>The program is estimated to last until 9:00pm. <br> If you must leave early, we'd love to
+                        personally thank you and bid goodbye before you go, perhaps not until our Same Day Edit video is
+                        played.</p>
+                </details>
+
             </div>
         </section>
 
-        <section id="contact" class="section contact page-section">
-            <div class="section-heading">
-                <p class="eyebrow">Contact</p>
-                <h2>We would love to hear from you</h2>
-            </div>
-            <div class="contact-card">
-                <p>Email: jiro.villafranca@gmail.com</p>
-                <p>Phone: +63 9397374871</p>
-            </div>
-        </section>
     </main>
 
     <footer class="site-footer">
         <nav class="site-nav">
             <a href="index.html" class="nav-button" aria-label="Home"><span class="nav-icon">🏠</span></a>
+            <!--Home-->
             <a href="#story" class="nav-button" aria-label="Our Story"><span class="nav-icon">💞</span></a>
-            <a href="#details" class="nav-button" aria-label="Details"><span class="nav-icon">🗓️</span></a>
+            <!--Our Story-->
             <a href="#gallery" class="nav-button" aria-label="Gallery"><span class="nav-icon">🖼️</span></a>
+            <!--Gallery Pictures-->
+            <a href="#details" class="nav-button" aria-label="Details"><span class="nav-icon">📍</span></a>
+            <!--Location-->
+            <a href="#registry" class="nav-button" aria-label="Registry"><span class="nav-icon">📇</span></a>
+            <!--Wedding Details-->
             <a href="https://forms.gle/U5EeXLwh2Fc7oNsY9" class="nav-button" aria-label="RSVP" target="_blank"
-                rel="noopener noreferrer"><span class="nav-icon">✉️</span></a>
-            <a href="#registry" class="nav-button" aria-label="Registry"><span class="nav-icon">🎁</span></a>
-            <a href="#faq" class="nav-button" aria-label="FAQ"><span class="nav-icon">❓</span></a>
-            <a href="#contact" class="nav-button" aria-label="Contact"><span class="nav-icon">📞</span></a>
+                rel="noopener noreferrer"><span class="nav-icon">✉️</span></a><!--RSVP-->
+            <a href="#faq" class="nav-button" aria-label="FAQ"><span class="nav-icon">❓</span></a> <!--FAQs-->
         </nav>
     </footer>
 
