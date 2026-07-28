@@ -202,7 +202,10 @@ a {
 .landing-page {
   display: none;
   height: 100vh;
+  height: 100dvh;
   min-height: 100vh;
+  min-height: 100dvh;
+  width: 100%;
   padding: 0;
   margin: 0;
   background-image: url("pictures/landing-page-picture.png");
@@ -217,11 +220,11 @@ a {
 }
 
 .landing-overlay {
-  height: 85vh;
+  height: 100%;
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  padding: 5rem 1rem 2rem;
+  padding: 1rem 1rem calc(2rem + env(safe-area-inset-bottom, 0px));
   position: relative;
   z-index: 1;
 }
@@ -234,6 +237,7 @@ a {
   color: var(--accent-dark);
   font-weight: 700;
   text-decoration: none;
+  white-space: nowrap;
   box-shadow: 0 8px 20px rgba(77, 62, 31, 0.22);
 }
 
@@ -655,13 +659,13 @@ a {
 }
 
 @media (max-width: 768px) {
-  .landing-overlay {
-    height: 97vh;
-  }
-
   .landing-page {
+    height: 100vh;
     height: 100svh;
+    height: 100dvh;
+    min-height: 100vh;
     min-height: 100svh;
+    min-height: 100dvh;
     padding: 0;
     background-image: url("pictures/landing-page-picture2.png");
     background-color: #f7efe2;
