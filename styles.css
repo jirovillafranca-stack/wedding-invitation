@@ -111,15 +111,7 @@ a {
 }
 
 .page-section {
-  display: none;
-}
-
-.page-section.active {
   display: block;
-}
-
-.hero.page-section.active {
-  display: grid;
 }
 
 .hero {
@@ -200,7 +192,6 @@ a {
 }
 
 .landing-page {
-  display: none;
   height: 100vh;
   height: 100dvh;
   min-height: 100vh;
@@ -780,11 +771,12 @@ a {
 }
 
 /* Home page viewport layout: slideshow 70%, countdown 20%, navigation 10%. */
-#home.active {
+#home {
   display: flex;
   flex-direction: column;
-  hmin-height:90svh;
+  min-height: 90svh;
   padding: 0;
+  padding-bottom: 0;
 }
 
 #home .hero {
@@ -815,10 +807,6 @@ a {
   margin: 0;
   padding: 0.35rem;
 } */
-
-body:has(#home.active) #home {
-  padding-bottom: 0;
-}
 
 /* body:has(#home.active) .site-footer .nav-button {
   width: min(58px, 8svh);

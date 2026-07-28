@@ -26,55 +26,9 @@ function updateCountdown() {
 setInterval(updateCountdown, 1000);
 updateCountdown();
 
-const pageSections = Array.from(document.querySelectorAll('.page-section'));
-
-function showSection(targetId) {
-  const targetSection = document.getElementById(targetId);
-
-  if (!targetSection) {
-    return;
-  }
-
-  pageSections.forEach((section) => {
-    section.classList.toggle('active', section === targetSection);
-  });
-
-  loadSectionAssets(targetId);
-
-  const nextHash = targetId ? `#${targetId}` : '#home';
-
-  // File previews run each local page in an isolated origin, where rewriting
-  // the URL can be blocked. The section can still change without the hash.
-  if (window.location.protocol !== 'file:' && window.location.hash !== nextHash) {
-    window.history.replaceState(null, '', nextHash);
-  }
-}
-
-document.querySelectorAll('a[href^="#"]').forEach((link) => {
-  link.addEventListener('click', (event) => {
-    const targetId = link.getAttribute('href')?.slice(1);
-
-    if (!targetId) {
-      return;
-    }
-
-    const targetSection = document.getElementById(targetId);
-
-    if (targetSection && targetSection.classList.contains('page-section')) {
-      event.preventDefault();
-      showSection(targetId);
-    }
-  });
-});
-
-window.addEventListener('hashchange', () => {
-  const targetId = window.location.hash ? window.location.hash.slice(1) : (document.getElementById('landing') ? 'landing' : 'home');
-  const targetSection = document.getElementById(targetId);
-
-  if (targetSection && targetSection.classList.contains('page-section')) {
-    showSection(targetId);
-  }
-});
+// All sections live in the page at once now (a single scrollable page), so
+// nav links just need their native anchor jump — scroll-behavior: smooth
+// on <html> already animates it. No JS-driven show/hide required.
 
 const slideshowImages = [
   'IMG_7066.PNG', 'IMG_7070.JPG', 'IMG_7073.JPG', 'IMG_7075.JPG',
@@ -186,23 +140,15 @@ function renderGallery() {
   galleryRendered = true;
 }
 
-function loadSectionAssets(targetId) {
-  const section = document.getElementById(targetId);
-  if (!section) return;
+// Every section is visible in the scrollable flow from the start, so their
+// images can load immediately too — the loading="lazy" attribute already
+// defers the actual network fetch until each one nears the viewport.
+document.querySelectorAll('img[data-deferred-src]').forEach((image) => {
+  image.src = image.dataset.deferredSrc;
+  image.removeAttribute('data-deferred-src');
+});
 
-  section.querySelectorAll('img[data-deferred-src]').forEach((image) => {
-    image.src = image.dataset.deferredSrc;
-    image.removeAttribute('data-deferred-src');
-  });
-
-  if (targetId === 'gallery') renderGallery();
-}
-
-const initialRequestedId = window.location.hash ? window.location.hash.slice(1) : '';
-const initialTargetId = initialRequestedId || (document.getElementById('landing') ? 'landing' : 'home');
-const initialTargetSection = document.getElementById(initialTargetId);
-
-showSection(initialTargetSection && initialTargetSection.classList.contains('page-section') ? initialTargetId : (document.getElementById('home') ? 'home' : 'landing'));
+renderGallery();
 
 const form = document.getElementById('rsvp-form');
 const googleFormUrl = 'https://forms.gle/U5EeXLwh2Fc7oNsY9';
