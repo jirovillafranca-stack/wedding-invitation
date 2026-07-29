@@ -157,6 +157,13 @@ if (form) {
 const music = document.getElementById("bgMusic");
 const muteBtn = document.getElementById("musicToggle");
 
+const ICON_ATTRS = 'viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"';
+const musicIcons = {
+  playing: `<svg ${ICON_ATTRS}><path d="M4 9v6h4l5 5V4L8 9H4z" /><path d="M16.5 8.5a5 5 0 0 1 0 7" /><path d="M19 6a8 8 0 0 1 0 12" /></svg>`,
+  muted: `<svg ${ICON_ATTRS}><path d="M4 9v6h4l5 5V4L8 9H4z" /><path d="m17 9 5 6M22 9l-5 6" /></svg>`,
+  paused: `<svg ${ICON_ATTRS}><polygon points="6 3 20 12 6 21 6 3" /></svg>`,
+};
+
 if (music && muteBtn) {
   const START_TIME = 60;
   const END_TIME = 102;
@@ -167,7 +174,7 @@ if (music && muteBtn) {
   function updateMusicButton() {
     const isPlaying = !music.paused;
     const isMuted = music.muted || music.volume === 0;
-    muteBtn.textContent = isPlaying ? (isMuted ? "🔇" : "🔊") : "▶";
+    muteBtn.innerHTML = isPlaying ? (isMuted ? musicIcons.muted : musicIcons.playing) : musicIcons.paused;
     muteBtn.setAttribute(
       "aria-label",
       isPlaying ? (isMuted ? "Unmute background music" : "Mute background music") : "Play background music"

@@ -66,24 +66,24 @@ a {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(180deg, rgba(255, 247, 223, 0) 0%, rgba(255, 247, 223, 0.95) 30%, rgba(255, 247, 223, 0.98) 100%);
   backdrop-filter: blur(8px);
 }
 
 .site-nav {
   display: flex;
-  gap: 0.8rem;
-  flex-wrap: wrap;
+  gap: clamp(0.25rem, 2vw, 0.8rem);
+  flex-wrap: nowrap;
   justify-content: center;
   align-items: center;
+  width: 100%;
 }
 
 .nav-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 58px;
-  height: 58px;
+  width: clamp(30px, 11vw, 58px);
+  height: clamp(30px, 11vw, 58px);
   border-radius: 50%;
   background: rgba(216, 162, 74, 0.16);
   color: var(--accent-dark);
@@ -97,7 +97,12 @@ a {
 }
 
 .nav-icon {
-  font-size: 1.2rem;
+  display: flex;
+}
+
+.nav-icon svg {
+  width: 1.3rem;
+  height: 1.3rem;
 }
 
 .section {
@@ -265,7 +270,6 @@ a {
 .hero h1 {
   font-size: clamp(3rem, 7vw, 5.8rem);
   line-height: 0.95;
-  /* margin: 1rem 0; */
   letter-spacing: 0.2rem;
   color: #fffdf7;
   text-shadow: 0 4px 12px rgba(0, 0, 0, 0.38);
@@ -282,7 +286,6 @@ a {
 .hero-time,
 .hero-venue {
   font-size: 1.15rem;
-  /* margin-bottom: 0.8rem; */
   color: #fffdf7;
   text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
@@ -521,6 +524,12 @@ a {
   box-shadow: 0 12px 24px rgba(120, 95, 30, 0.32);
 }
 
+.map-link-icon {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+}
+
 .details-grid {
   grid-template-columns: repeat(2, 1fr);
 }
@@ -756,16 +765,6 @@ a {
     padding: 0.8rem 0.75rem 1.25rem;
   }
 
-  .site-nav {
-    gap: 0.6rem;
-    justify-content: center;
-  }
-
-  .nav-button {
-    width: 52px;
-    height: 52px;
-  }
-
   .section {
     padding: 4rem 1rem;
   }
@@ -785,15 +784,6 @@ a {
     padding: 0.6rem 0.4rem 1rem;
   }
 
-  .site-nav {
-    gap: 0.5rem;
-  }
-
-  .nav-button {
-    width: 48px;
-    height: 48px;
-  }
-
   .hero {
     border-radius: 24px;
   }
@@ -811,12 +801,6 @@ a {
   }
 }
 
-/* Home page viewport layout: slideshow 70%, countdown 20%, navigation 10%. */
-/* The site footer is sticky/floating over the whole scrollable page, so its
-   height (which varies with nav-icon wrap) has to be subtracted here — 150px
-   is a safe margin above the largest measured footer height (~130px, when
-   the nav wraps to two rows on narrow screens) — otherwise the countdown
-   ends up hidden behind it on load. */
 #home {
   display: flex;
   flex-direction: column;
@@ -846,32 +830,6 @@ a {
   padding: 0.5rem 1rem;
 }
 
-/* body:has(#home.active) .site-footer {
-  position: fixed;
-  left: 0;
-  right: 0;
-  height: 10svh;
-  margin: 0;
-  padding: 0.35rem;
-} */
-
-/* body:has(#home.active) .site-footer .nav-button {
-  width: min(58px, 8svh);
-  height: min(58px, 8svh);
-}
-
-@media (max-width: 768px) {
-  body:has(#home.active) .site-footer .site-nav {
-    flex-wrap: nowrap;
-    gap: 0.25rem;
-  }
-
-  body:has(#home.active) .site-footer .nav-button {
-    width: min(44px, 9vw);
-    height: min(44px, 9vw);
-  }
-} */
-
 .video-container{
     max-width:900px;
     margin:auto;
@@ -880,7 +838,6 @@ a {
     box-shadow:0 10px 30px rgba(0,0,0,.2);
 }
 
-/* Stays available while the guest scrolls through every invitation section. */
 #musicToggle {
   position: fixed;
   top: 1.5rem;
@@ -896,9 +853,12 @@ a {
   box-shadow: 0 8px 24px rgba(77, 62, 31, 0.32);
   color: #fff;
   cursor: pointer;
-  font-size: 2rem;
-  line-height: 1;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#musicToggle svg {
+  width: 1.7rem;
+  height: 1.7rem;
 }
 
 #musicToggle:hover {
@@ -917,7 +877,11 @@ a {
     left: 1rem;
     width: 40px;
     height: 40px;
-    font-size: 1.7rem;
+  }
+
+  #musicToggle svg {
+    width: 1.3rem;
+    height: 1.3rem;
   }
 }
 
