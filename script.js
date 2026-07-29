@@ -31,12 +31,8 @@ updateCountdown();
 // on <html> already animates it. No JS-driven show/hide required.
 
 const slideshowImages = [
-  'IMG_7066.PNG', 'IMG_7070.JPG', 'IMG_7073.JPG', 'IMG_7075.JPG',
-  'IMG_7076.JPG', 'IMG_7077.JPG', 'IMG_7079.JPG', 'MHK00231.jpg',
-  'MHK00326.jpg', 'MHK00396.jpg', 'MHK00398.jpg', 'MHK00422.jpg',
-  'MHK00438.jpg', 'MHK00568.jpg', 'MHK00731.jpg', 'MHK00745.jpg',
-  'MHK00765.jpg', 'MHK00795.jpg', 'MHK00919.jpg', 'MHK01012.jpg',
-  'MHK01029.jpg', 'MHK01103.jpg', 'MHK01113.jpg', 'MHK01123.jpg'
+  'A1.jpg', 'A2.jpg', 'A3.jpg', 'A4.jpg',
+  'A5.jpg', 'A6.jpg', 'A7.jpg', 'A8.jpg'
 ];
 
 const heroSlideshow = document.querySelector('.hero-slideshow');
@@ -45,7 +41,7 @@ if (heroSlideshow) {
   const slides = slideshowImages.map((imageName, index) => {
     const image = document.createElement('img');
     image.className = `hero-slide${index === 0 ? ' active' : ''}`;
-    image.dataset.src = `pictures/slide-show-pictures/${imageName}`;
+    image.dataset.src = `pictures/A1-Open-Invitation-Display/${imageName}`;
     if (index === 0) image.src = image.dataset.src;
     image.fetchPriority = index === 0 ? 'high' : 'low';
     image.decoding = 'async';
@@ -66,22 +62,19 @@ if (heroSlideshow) {
 }
 
 const galleryImages = [
-  'MHK00326.jpg',
-  'MHK00396.jpg',
-  'MHK00398.jpg',
-  'MHK00422.jpg',
-  'MHK00438.jpg',
-  'MHK00568.jpg',
-  'MHK00731.jpg',
-  'MHK00745.jpg',
-  'MHK00765.jpg',
-  'MHK00795.jpg',
-  'MHK00919.jpg',
-  'MHK01012.jpg',
-  'MHK01029.jpg',
-  'MHK01103.jpg',
-  'MHK01113.jpg',
-  'MHK01123.jpg'
+  '1.jpg',
+  '2.jpg',
+  '3.jpg',
+  '4.jpg',
+  '5.jpg',
+  '6.jpg',
+  '7.jpg',
+  '8.jpg',
+  '9.JPG',
+  '10.JPG',
+  '11.JPG',
+  '12.JPG',
+  '13.JPG'
 ];
 
 const lightbox = document.getElementById('lightbox');
@@ -129,9 +122,9 @@ function renderGallery() {
   galleryImages.forEach((imageName) => {
     const card = document.createElement('figure');
     card.className = 'gallery-card';
-    card.innerHTML = `<img src="pictures/slide-show-pictures/${imageName}" alt="Wedding memory" loading="lazy" />`;
+    card.innerHTML = `<img src="pictures/A3-Prenup-Photos/${imageName}" alt="Wedding memory" loading="lazy" />`;
     card.addEventListener('click', () => {
-      lightboxImage.src = `pictures/${imageName}`;
+      lightboxImage.src = `pictures/A3-Prenup-Photos/${imageName}`;
       lightbox.classList.add('active');
       lightbox.setAttribute('aria-hidden', 'false');
     });
