@@ -376,6 +376,28 @@ a {
   font-size: 1rem;
   letter-spacing: 0.04em;
   padding: 1rem 1.6rem;
+  animation: rsvp-pulse 2.4s ease-in-out infinite;
+}
+
+.button.primary:hover {
+  animation-play-state: paused;
+}
+
+@keyframes rsvp-pulse {
+  0%, 55%, 100% {
+    transform: scale(1);
+    box-shadow: 0 12px 28px rgba(120, 95, 30, 0.26);
+  }
+  28% {
+    transform: scale(1.06);
+    box-shadow: 0 16px 36px rgba(120, 95, 30, 0.45);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button.primary {
+    animation: none;
+  }
 }
 
 .countdown-card {
@@ -496,6 +518,10 @@ a {
   box-shadow: 0 14px 34px rgba(120, 95, 30, 0.1);
 }
 
+.detail-card {
+  text-align: center;
+}
+
 .detail-card img {
   width: 100%;
   height: 180px;
@@ -517,11 +543,30 @@ a {
   font-size: 0.9rem;
   box-shadow: 0 8px 18px rgba(120, 95, 30, 0.24);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  animation: map-link-pulse 2.4s ease-in-out infinite;
 }
 
 .map-link:hover {
   transform: translateY(-2px);
   box-shadow: 0 12px 24px rgba(120, 95, 30, 0.32);
+  animation-play-state: paused;
+}
+
+@keyframes map-link-pulse {
+  0%, 55%, 100% {
+    transform: scale(1);
+    box-shadow: 0 8px 18px rgba(120, 95, 30, 0.24);
+  }
+  28% {
+    transform: scale(1.07);
+    box-shadow: 0 12px 26px rgba(120, 95, 30, 0.42);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .map-link {
+    animation: none;
+  }
 }
 
 .map-link-icon {
