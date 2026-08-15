@@ -133,16 +133,6 @@ function renderGallery() {
   galleryRendered = true;
 }
 
-// Every section is visible in the scrollable flow from the start, so their
-// images can load immediately too — the loading="lazy" attribute already
-// defers the actual network fetch until each one nears the viewport.
-document.querySelectorAll('img[data-deferred-src]').forEach((image) => {
-  image.src = image.dataset.deferredSrc;
-  image.removeAttribute('data-deferred-src');
-});
-
-renderGallery();
-
 const form = document.getElementById('rsvp-form');
 const googleFormUrl = 'https://forms.gle/U5EeXLwh2Fc7oNsY9';
 
@@ -156,6 +146,11 @@ if (form) {
 
 const music = document.getElementById("bgMusic");
 const muteBtn = document.getElementById("musicToggle");
+
+// Assigned its real implementation inside the music block below, once the
+// video section is actually revealed — kept as a no-op default in case
+// bgMusic/#musicToggle are missing from the page.
+let setupVideoPlayer = () => {};
 
 const ICON_ATTRS = 'viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"';
 const musicIcons = {
@@ -247,6 +242,7 @@ if (music && muteBtn) {
   const videoFrame = document.getElementById('stdVideoFrame');
   if (videoFrame) {
     let musicPausedForVideo = false;
+    let playerCreated = false;
 
     const onPlayerStateChange = (event) => {
       if (event.data === YT.PlayerState.PLAYING) {
@@ -263,22 +259,66 @@ if (music && muteBtn) {
     };
 
     const createPlayer = () => {
-      new YT.Player(videoFrame, { events: { onStateChange: onPlayerStateChange } });
+      new YT.Player(videoFrame, {
+        videoId: videoFrame.dataset.videoId,
+        events: { onStateChange: onPlayerStateChange },
+      });
     };
 
-    if (window.YT && window.YT.Player) {
-      createPlayer();
-    } else {
-      const previousReady = window.onYouTubeIframeAPIReady;
-      window.onYouTubeIframeAPIReady = () => {
-        if (previousReady) previousReady();
+    // Loading the YouTube embed (its iframe + player script) is deferred
+    // until the video section actually scrolls into view — see revealSection()
+    // below — instead of paying for it while guests are still on section 1.
+    setupVideoPlayer = () => {
+      if (playerCreated) return;
+      playerCreated = true;
+
+      if (window.YT && window.YT.Player) {
         createPlayer();
-      };
-      const apiScript = document.createElement('script');
-      apiScript.src = 'https://www.youtube.com/iframe_api';
-      document.head.appendChild(apiScript);
-    }
+      } else {
+        const previousReady = window.onYouTubeIframeAPIReady;
+        window.onYouTubeIframeAPIReady = () => {
+          if (previousReady) previousReady();
+          createPlayer();
+        };
+        const apiScript = document.createElement('script');
+        apiScript.src = 'https://www.youtube.com/iframe_api';
+        document.head.appendChild(apiScript);
+      }
+    };
   }
+}
+
+// Reveal each section (and load the images/gallery/video it holds) one at a
+// time as the guest scrolls to it, instead of fetching every section's
+// assets up front. Sections earlier in the page are ready well before the
+// guest ever reaches the last one.
+const pageSections = document.querySelectorAll('.page-section');
+
+function revealSection(section) {
+  section.classList.add('is-revealed');
+
+  section.querySelectorAll('img[data-deferred-src]').forEach((image) => {
+    image.src = image.dataset.deferredSrc;
+    image.removeAttribute('data-deferred-src');
+  });
+
+  if (section.id === 'gallery') renderGallery();
+  if (section.id === 'video') setupVideoPlayer();
+}
+
+if ('IntersectionObserver' in window && pageSections.length) {
+  const sectionObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      revealSection(entry.target);
+      observer.unobserve(entry.target);
+    });
+  }, { rootMargin: '20% 0px 20% 0px', threshold: 0.01 });
+
+  pageSections.forEach((section) => sectionObserver.observe(section));
+} else {
+  // No IntersectionObserver support — fall back to loading everything now.
+  pageSections.forEach(revealSection);
 }
 
 /* Disabled duplicate legacy music block retained below from a prior edit.
