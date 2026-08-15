@@ -243,6 +243,42 @@ if (music && muteBtn) {
 
   updateMusicButton();
   if (shouldStartMusic) playMusicSegment({ restart: true });
+
+  const videoFrame = document.getElementById('stdVideoFrame');
+  if (videoFrame) {
+    let musicPausedForVideo = false;
+
+    const onPlayerStateChange = (event) => {
+      if (event.data === YT.PlayerState.PLAYING) {
+        if (!music.paused) {
+          musicPausedForVideo = true;
+          music.pause();
+        }
+      } else if (event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.ENDED) {
+        if (musicPausedForVideo) {
+          musicPausedForVideo = false;
+          playMusicSegment();
+        }
+      }
+    };
+
+    const createPlayer = () => {
+      new YT.Player(videoFrame, { events: { onStateChange: onPlayerStateChange } });
+    };
+
+    if (window.YT && window.YT.Player) {
+      createPlayer();
+    } else {
+      const previousReady = window.onYouTubeIframeAPIReady;
+      window.onYouTubeIframeAPIReady = () => {
+        if (previousReady) previousReady();
+        createPlayer();
+      };
+      const apiScript = document.createElement('script');
+      apiScript.src = 'https://www.youtube.com/iframe_api';
+      document.head.appendChild(apiScript);
+    }
+  }
 }
 
 /* Disabled duplicate legacy music block retained below from a prior edit.
