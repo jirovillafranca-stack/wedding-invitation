@@ -255,15 +255,29 @@ a {
   white-space: nowrap;
   box-shadow: 0 8px 20px rgba(77, 62, 31, 0.22);
   opacity: 0;
-  pointer-events: none;
-  transform: translateY(8px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  animation: landing-button-in 0.7s ease 0.15s forwards,
+    landing-button-pulse 2.2s ease-in-out 0.85s infinite;
 }
 
-.landing-button.is-visible {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateY(0);
+@keyframes landing-button-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes landing-button-pulse {
+  0%,
+  100% {
+    box-shadow: 0 8px 20px rgba(77, 62, 31, 0.22);
+  }
+  50% {
+    box-shadow: 0 8px 26px rgba(77, 62, 31, 0.4), 0 0 0 6px rgba(243, 233, 185, 0.35);
+  }
 }
 
 .hero-kicker,
