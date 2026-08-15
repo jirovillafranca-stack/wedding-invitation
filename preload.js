@@ -3,6 +3,13 @@
 // details.html will need so they're already in the browser cache — the next
 // page then renders with no pop-in instead of loading images live on screen.
 
+// Keep the "Open Invitation" button hidden until the landing page (and its
+// background photo) has actually finished loading, instead of showing it too
+// early over an unloaded/blank background.
+window.addEventListener('load', () => {
+  document.getElementById('enterBtn')?.classList.add('is-visible');
+});
+
 const detailsPageImages = [
   ...Array.from({ length: 8 }, (_, i) => `pictures/A1-Open-Invitation-Display/A${i + 1}.jpg`),
   ...Array.from({ length: 5 }, (_, i) => `pictures/A2-How-we-met/${i + 1}.png`),

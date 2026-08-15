@@ -165,7 +165,7 @@ const musicIcons = {
 };
 
 if (music && muteBtn) {
-  const START_TIME = 0;
+  const START_TIME = 19;
   const END_TIME = 287;
   const shouldStartMusic = new URLSearchParams(window.location.search).has("playMusic");
 
