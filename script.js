@@ -231,10 +231,15 @@ if (music && muteBtn) {
   });
 
   // If autoplay after opening the invitation is blocked, the guest's first
-  // touch anywhere on the details page starts the music without another prompt.
-  document.addEventListener("pointerdown", () => {
+  // qualifying interaction anywhere on the details page starts the music
+  // without another prompt. Browsers only treat click/tap/keypress as a
+  // real user gesture for unlocking audio — plain scrolling never counts,
+  // no matter how far the guest scrolls, so it's deliberately not listed here.
+  const startMusicFromGesture = () => {
     if (music.paused) playMusicSegment({ restart: true, fromUserGesture: true });
-  }, { once: true });
+  };
+  document.addEventListener("pointerdown", startMusicFromGesture, { once: true });
+  document.addEventListener("keydown", startMusicFromGesture, { once: true });
 
   updateMusicButton();
   if (shouldStartMusic) playMusicSegment({ restart: true });
