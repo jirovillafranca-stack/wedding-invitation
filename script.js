@@ -30,6 +30,13 @@ updateCountdown();
 // nav links just need their native anchor jump — scroll-behavior: smooth
 // on <html> already animates it. No JS-driven show/hide required.
 
+const scrollTopBtn = document.getElementById('scrollTopBtn');
+if (scrollTopBtn) {
+  scrollTopBtn.addEventListener('click', () => {
+    document.getElementById('home')?.scrollIntoView({ behavior: 'smooth' });
+  });
+}
+
 const slideshowImages = [
   'A1.jpg', 'A2.jpg', 'A3.jpg', 'A4.jpg',
   'A5.jpg', 'A6.jpg', 'A7.jpg', 'A8.jpg'
