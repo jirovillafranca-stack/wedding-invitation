@@ -8,6 +8,15 @@
   --border: rgba(90, 70, 50, 0.16);
   --shadow: 0 16px 42px rgba(120, 95, 30, 0.14);
   --card: rgba(255, 252, 244, 0.88);
+  --font-serif: "Playfair Display", "Segoe UI", Tahoma, Geneva, Verdana, serif;
+  --font-script: "Allura", cursive;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-serif);
+  font-weight: 700;
 }
 
 * {
@@ -22,7 +31,7 @@ html {
 }
 
 body {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: var(--font-serif);
   line-height: 1.6;
   color: var(--text);
   background: #f7e6b5;
@@ -301,9 +310,11 @@ a {
 }
 
 .hero h1 {
-  font-size: clamp(3rem, 7vw, 5.8rem);
-  line-height: 0.95;
-  letter-spacing: 0.2rem;
+  font-family: var(--font-script);
+  font-weight: 400;
+  font-size: clamp(4.2rem, 10vw, 8rem);
+  line-height: 1;
+  letter-spacing: 0.05rem;
   color: #fffdf7;
   text-shadow: 0 4px 12px rgba(0, 0, 0, 0.38);
 }
@@ -510,6 +521,111 @@ a {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--muted);
+}
+
+.ceremony-card {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  width: min(100%, 460px);
+  margin: 0.6rem auto 0;
+  padding: 1.1rem 1.3rem;
+  background: var(--card);
+  border: 1px solid rgba(165, 111, 30, 0.14);
+  border-radius: 20px;
+  box-shadow: 0 14px 34px rgba(120, 95, 30, 0.14);
+}
+
+.ceremony-card-icon {
+  flex: 0 0 auto;
+  width: 58px;
+  height: 58px;
+  color: var(--accent-dark);
+}
+
+.ceremony-card-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.ceremony-card-divider {
+  align-self: stretch;
+  width: 1px;
+  background: rgba(165, 111, 30, 0.25);
+}
+
+.ceremony-card-info {
+  flex: 1;
+  text-align: left;
+}
+
+.ceremony-card-label {
+  font-family: var(--font-script);
+  font-size: 1.9rem;
+  font-weight: 400;
+  color: var(--accent-dark);
+}
+
+.ceremony-card-time {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--accent-dark);
+  margin-top: 0.15rem;
+}
+
+.ceremony-card-heart-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.35rem 0;
+}
+
+.ceremony-card-hr {
+  flex: 1;
+  height: 1px;
+  margin: 0;
+  border: 0;
+  background: rgba(165, 111, 30, 0.3);
+}
+
+.ceremony-card-heart {
+  flex: 0 0 auto;
+  color: var(--accent);
+  font-size: 0.75rem;
+}
+
+.ceremony-card-venue {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-top: 0.15rem;
+}
+
+.ceremony-card-location {
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--muted);
+  margin-top: 0.1rem;
+}
+
+.ceremony-hint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: min(100%, 460px);
+  margin: 0.7rem auto 0;
+  padding-bottom: 0.5rem;
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.ceremony-hint svg {
+  flex: 0 0 auto;
+  width: 16px;
+  height: 16px;
+  color: var(--accent);
 }
 
 .section-heading {
@@ -867,7 +983,7 @@ a {
   }
 
   .hero h1 {
-    font-size: clamp(2.3rem, 9vw, 3.2rem);
+    font-size: clamp(3.2rem, 14vw, 4.4rem);
   }
 
   .countdown {
@@ -900,6 +1016,11 @@ a {
   display: flex;
   align-items: center;
   padding: 0.25rem 1rem;
+}
+
+#home > .ceremony-card,
+#home > .ceremony-hint {
+  flex: 0 0 auto;
 }
 
 .home-countdown {
