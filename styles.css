@@ -170,7 +170,7 @@ a {
 .hero::before {
   content: "";
   position: absolute;
-  inset: 20px;
+  inset: 2px;
   border-radius: 24px;
   background: linear-gradient(135deg, rgba(255, 245, 211, 0.35), rgba(120, 95, 30, 0.62));
   pointer-events: none;
@@ -179,7 +179,7 @@ a {
 
 .hero-slideshow {
   position: absolute;
-  inset: 20px;
+  inset: 2px;
   overflow: hidden;
   border-radius: 24px;
   z-index: 0;
@@ -444,6 +444,48 @@ a {
   }
 }
 
+.hero-countdown {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.4rem, 1.5vw, 0.8rem);
+  margin-top: 0.2rem;
+}
+
+.hero-countdown-unit {
+  text-align: center;
+  min-width: 2.4em;
+}
+
+.hero-countdown-unit span {
+  display: block;
+  font-size: clamp(1.6rem, 4.5vw, 2.4rem);
+  font-weight: 800;
+  line-height: 1;
+  color: #fffdf7;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.hero-countdown-unit small {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 253, 247, 0.85);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+}
+
+.hero-countdown-colon {
+  font-size: clamp(1.4rem, 4vw, 2rem);
+  font-weight: 800;
+  line-height: 1;
+  color: rgba(255, 253, 247, 0.85);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  margin-bottom: 1.1em;
+}
+
 .countdown-card {
   width: fit-content;
   margin: 0 auto;
@@ -606,6 +648,55 @@ a {
   font-style: italic;
   color: var(--muted);
   margin-top: 0.1rem;
+}
+
+.notice-card {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  width: min(100%, 380px);
+  margin: 0.7rem auto 0;
+  padding: 0.9rem 1.1rem;
+  background: var(--card);
+  border: 1px solid rgba(165, 111, 30, 0.14);
+  border-radius: 20px;
+  box-shadow: 0 14px 34px rgba(120, 95, 30, 0.14);
+}
+
+.notice-card-icon {
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(216, 162, 74, 0.16);
+  color: var(--accent-dark);
+}
+
+.notice-card-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.notice-card-text {
+  flex: 1;
+  text-align: left;
+}
+
+.notice-card-title {
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--accent-dark);
+}
+
+.notice-card-body {
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin-top: 0.3rem;
 }
 
 .ceremony-hint {
@@ -999,8 +1090,7 @@ a {
   display: flex;
   flex-direction: column;
   min-height: calc(100svh - 150px);
-  padding: 0;
-  padding-bottom: 0;
+  padding: 0 min(1.5rem, 3vw);
 }
 
 #home .hero {
@@ -1019,9 +1109,14 @@ a {
 }
 
 #home > .ceremony-card,
+#home > .notice-card,
 #home > .ceremony-hint {
   flex: 0 0 auto;
   align-self: center;
+}
+
+#home > .ceremony-card {
+  margin-top: 1.2rem;
 }
 
 .home-countdown {
@@ -1199,5 +1294,86 @@ a {
   .dress-code-item:nth-child(5) {
     grid-column: auto;
     width: 100%;
+  }
+}
+
+/* Tablet / laptop / desktop refinements (>= 769px). Mobile layout above is untouched. */
+
+@media (min-width: 769px) {
+  .timeline-item,
+  .dress-code-item,
+  .detail-card {
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .timeline-item:hover,
+  .dress-code-item:hover,
+  .detail-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 22px 44px rgba(120, 95, 30, 0.2);
+  }
+
+  .section-heading {
+    margin-bottom: 2.5rem;
+  }
+}
+
+@media (min-width: 900px) {
+  #home {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 1.4rem;
+    padding: 1.5rem min(2rem, 4vw);
+  }
+
+  #home .hero {
+    flex: 1 1 100%;
+    min-height: 60svh;
+  }
+
+  #home > .ceremony-card,
+  #home > .notice-card {
+    flex: 1 1 340px;
+    max-width: 420px;
+    width: auto;
+    margin: 0;
+    align-self: stretch;
+  }
+
+  #home > .ceremony-hint {
+    flex: 1 1 100%;
+    margin-top: 0.2rem;
+  }
+}
+
+@media (min-width: 1025px) {
+  .gallery-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+
+  .gallery-card {
+    height: 260px;
+  }
+
+  .detail-card img {
+    height: 220px;
+  }
+
+  .timeline {
+    gap: 1.5rem;
+  }
+
+  .dress-code {
+    --dress-code-gap: 1.5rem;
+  }
+}
+
+@media (min-width: 1400px) {
+  .gallery-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
   }
 }
