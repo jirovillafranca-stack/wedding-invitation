@@ -43,9 +43,10 @@ const slideshowImages = [
 ];
 
 const heroSlideshow = document.querySelector('.hero-slideshow');
+let heroSlides = [];
 
 if (heroSlideshow) {
-  const slides = slideshowImages.map((imageName, index) => {
+  heroSlides = slideshowImages.map((imageName, index) => {
     const image = document.createElement('img');
     image.className = `hero-slide${index === 0 ? ' active' : ''}`;
     image.dataset.src = `pictures/A1-Open-Invitation-Display/${imageName}`;
@@ -59,12 +60,12 @@ if (heroSlideshow) {
 
   let activeSlide = 0;
   window.setInterval(() => {
-    slides[activeSlide].classList.remove('active');
-    activeSlide = (activeSlide + 1) % slides.length;
-    if (!slides[activeSlide].hasAttribute('src')) {
-      slides[activeSlide].src = slides[activeSlide].dataset.src;
+    heroSlides[activeSlide].classList.remove('active');
+    activeSlide = (activeSlide + 1) % heroSlides.length;
+    if (!heroSlides[activeSlide].hasAttribute('src')) {
+      heroSlides[activeSlide].src = heroSlides[activeSlide].dataset.src;
     }
-    slides[activeSlide].classList.add('active');
+    heroSlides[activeSlide].classList.add('active');
   }, 5000);
 }
 
@@ -333,73 +334,60 @@ if ('IntersectionObserver' in window && pageSections.length) {
   pageSections.forEach(revealSection);
 }
 
-/* Disabled duplicate legacy music block retained below from a prior edit.
-const music = document.getElementById("bgMusic");
-const muteBtn = document.getElementById("musicToggle");
-
-if (music && muteBtn) {
-  const START_TIME = 60;
-  const END_TIME = 154;
-  const shouldStartMusic = new URLSearchParams(window.location.search).has("playMusic");
-
-  music.volume = 1;
-
-  function updateMusicButton() {
-    const isPlaying = !music.paused;
-    const isMuted = music.muted || music.volume === 0;
-    muteBtn.textContent = isPlaying ? (isMuted ? "🔇" : "🔊") : "▶";
-    muteBtn.setAttribute(
-      "aria-label",
-      isPlaying ? (isMuted ? "Unmute background music" : "Mute background music") : "Play background music"
-    );
-    muteBtn.title = muteBtn.getAttribute("aria-label");
-  }
-
-  function seekToMusicStart() {
-    if (Number.isFinite(music.duration) && music.duration <= START_TIME) return false;
-    music.currentTime = START_TIME;
-    return true;
-  }
-
-  async function playMusicSegment({ restart = false } = {}) {
-    if (music.readyState < HTMLMediaElement.HAVE_METADATA) {
-      await new Promise((resolve) => music.addEventListener("loadedmetadata", resolve, { once: true }));
-    }
-
-    if (restart || music.currentTime < START_TIME || music.currentTime >= END_TIME) {
-      if (!seekToMusicStart()) return;
-    }
-
-    try {
-      await music.play();
-    } catch (error) {
-      // The control becomes a Play button if the browser requires a direct tap.
-      console.info("Background music is waiting for a user interaction.", error);
-    }
-    updateMusicButton();
-  }
-
-  music.addEventListener("timeupdate", () => {
-    if (music.currentTime >= END_TIME) {
-      seekToMusicStart();
-      music.play().catch(updateMusicButton);
-    }
+// Background fetch order, independent of scroll position: the first hero
+// slide and first "our story" photo are already high-priority (see the
+// <link rel="preload"> tags in details.html). Once those are in, we work
+// through the rest of the page in a fixed sequence — rest of "our story",
+// then the rest of the hero slideshow, then everything after it — one
+// image at a time so this never competes for bandwidth with whichever
+// fetch is already in flight.
+function loadImageInBackground(src) {
+  return new Promise((resolve) => {
+    const image = new Image();
+    image.fetchPriority = 'low';
+    image.decoding = 'async';
+    image.addEventListener('load', resolve, { once: true });
+    image.addEventListener('error', resolve, { once: true });
+    image.src = src;
   });
-
-  music.addEventListener("ended", () => playMusicSegment({ restart: true }));
-  music.addEventListener("play", updateMusicButton);
-  music.addEventListener("pause", updateMusicButton);
-  music.addEventListener("volumechange", updateMusicButton);
-
-  muteBtn.addEventListener("click", () => {
-    if (music.paused) {
-      playMusicSegment();
-      return;
-    }
-    music.muted = !music.muted;
-  });
-
-  updateMusicButton();
-  if (shouldStartMusic) playMusicSegment({ restart: true });
 }
-*/
+
+async function preloadInOrder(sources) {
+  for (const src of sources) {
+    await loadImageInBackground(src);
+  }
+}
+
+async function preloadHeroSlide(slide) {
+  if (slide.hasAttribute('src')) return;
+  await new Promise((resolve) => {
+    slide.addEventListener('load', resolve, { once: true });
+    slide.addEventListener('error', resolve, { once: true });
+    slide.src = slide.dataset.src;
+  });
+}
+
+async function runBackgroundLoadSequence() {
+  const storyImages = Array.from({ length: 5 }, (_, i) => `pictures/A2-How-we-met/${i + 1}.png`);
+  await preloadInOrder(storyImages);
+
+  for (const slide of heroSlides.slice(1)) {
+    await preloadHeroSlide(slide);
+  }
+
+  const restOfPageImages = [
+    ...galleryImages.map((name) => `pictures/A3-Prenup-Photos/${name}`),
+    'pictures/saint-john-church.jpg',
+    'pictures/alka-resorts.jpg',
+    ...Array.from({ length: 5 }, (_, i) => `pictures/Dress-code/${i + 1}.png`),
+  ];
+  await preloadInOrder(restOfPageImages);
+}
+
+if ('requestIdleCallback' in window) {
+  requestIdleCallback(runBackgroundLoadSequence, { timeout: 4000 });
+} else {
+  window.setTimeout(runBackgroundLoadSequence, 1000);
+}
+
+
