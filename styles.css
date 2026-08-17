@@ -526,10 +526,10 @@ a {
 .ceremony-card {
   display: flex;
   align-items: center;
-  gap: 1.1rem;
-  width: min(100%, 460px);
+  gap: 0.85rem;
+  width: min(100%, 380px);
   margin: 0.6rem auto 0;
-  padding: 1.1rem 1.3rem;
+  padding: 0.85rem 1rem;
   background: var(--card);
   border: 1px solid rgba(165, 111, 30, 0.14);
   border-radius: 20px;
@@ -538,8 +538,8 @@ a {
 
 .ceremony-card-icon {
   flex: 0 0 auto;
-  width: 58px;
-  height: 58px;
+  width: 44px;
+  height: 44px;
   color: var(--accent-dark);
 }
 
@@ -561,16 +561,16 @@ a {
 
 .ceremony-card-label {
   font-family: var(--font-script);
-  font-size: 1.9rem;
+  font-size: 1.5rem;
   font-weight: 400;
   color: var(--accent-dark);
 }
 
 .ceremony-card-time {
-  font-size: 1.4rem;
+  font-size: 1.15rem;
   font-weight: 800;
   color: var(--accent-dark);
-  margin-top: 0.15rem;
+  margin-top: 0.1rem;
 }
 
 .ceremony-card-heart-row {
@@ -595,14 +595,14 @@ a {
 }
 
 .ceremony-card-venue {
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 700;
   color: var(--text);
-  margin-top: 0.15rem;
+  margin-top: 0.1rem;
 }
 
 .ceremony-card-location {
-  font-size: 0.85rem;
+  font-size: 0.78rem;
   font-style: italic;
   color: var(--muted);
   margin-top: 0.1rem;
@@ -1021,6 +1021,7 @@ a {
 #home > .ceremony-card,
 #home > .ceremony-hint {
   flex: 0 0 auto;
+  align-self: center;
 }
 
 .home-countdown {
@@ -1150,9 +1151,16 @@ a {
     border: none;
 }
 .dress-code {
+  --dress-code-gap: 1.2rem;
   display: grid;
-  gap: 1.2rem;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: var(--dress-code-gap);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.dress-code-item:nth-child(5) {
+  grid-column: 1 / -1;
+  justify-self: center;
+  width: calc((100% - 3 * var(--dress-code-gap)) / 4);
 }
 
 .dress-code-item {
@@ -1186,5 +1194,10 @@ a {
 @media (max-width: 1024px) {
   .dress-code {
     grid-template-columns: 1fr;
+  }
+
+  .dress-code-item:nth-child(5) {
+    grid-column: auto;
+    width: 100%;
   }
 }
