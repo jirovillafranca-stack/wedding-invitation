@@ -37,6 +37,20 @@ if (scrollTopBtn) {
   });
 }
 
+const scrollDownBtn = document.getElementById('scrollDownBtn');
+if (scrollDownBtn) {
+  scrollDownBtn.addEventListener('click', () => {
+    const nextSection = Array.from(document.querySelectorAll('.page-section'))
+      .find((section) => section.getBoundingClientRect().top > 20);
+
+    if (nextSection) {
+      nextSection.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+  });
+}
+
 const slideshowImages = [
   'A1.jpg', 'A2.jpg', 'A3.jpg', 'A4.jpg',
   'A5.jpg', 'A6.jpg', 'A7.jpg', 'A8.jpg'

@@ -209,6 +209,7 @@ a {
   justify-content: flex-end;
   box-sizing: border-box;
   width: auto;
+  min-width: 0;
   margin: var(--hero-frame-inset);
   padding: 1rem;
   gap: clamp(0.35rem, 1.5vh, 0.8rem);
@@ -312,11 +313,12 @@ a {
 .hero h1 {
   font-family: var(--font-script);
   font-weight: 400;
-  font-size: clamp(4.2rem, 10vw, 8rem);
+  font-size: clamp(2.6rem, 9vw, 8rem);
   line-height: 1;
   letter-spacing: 0.05rem;
   color: #fffdf7;
   text-shadow: 0 4px 12px rgba(0, 0, 0, 0.38);
+  white-space: nowrap;
 }
 
 .hero h1 span {
@@ -1074,7 +1076,7 @@ a {
   }
 
   .hero h1 {
-    font-size: clamp(3.2rem, 14vw, 4.4rem);
+    font-size: clamp(1.4rem, 8vw, 4.4rem);
   }
 
   .countdown {
@@ -1096,8 +1098,9 @@ a {
 #home .hero {
   display: grid;
   flex: 1;
-  min-height: 50svh;
+  min-height: 87svh;
   width: 100%;
+  min-width: 0;
 }
 
 #home > .countdown-card {
@@ -1180,10 +1183,11 @@ a {
   }
 }
 
-#scrollTopBtn {
+#scrollTopBtn,
+#scrollDownBtn {
   position: fixed;
   right: 1.5rem;
-  bottom: 6.5rem;
+  bottom: 10.5rem;
   z-index: 1000;
   display: grid;
   width: 56px;
@@ -1198,30 +1202,43 @@ a {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-#scrollTopBtn svg {
+#scrollDownBtn {
+  bottom: 6.5rem;
+}
+
+#scrollTopBtn svg,
+#scrollDownBtn svg {
   width: 1.5rem;
   height: 1.5rem;
 }
 
-#scrollTopBtn:hover {
+#scrollTopBtn:hover,
+#scrollDownBtn:hover {
   transform: translateY(-3px) scale(1.04);
   box-shadow: 0 12px 28px rgba(77, 62, 31, 0.4);
 }
 
-#scrollTopBtn:focus-visible {
+#scrollTopBtn:focus-visible,
+#scrollDownBtn:focus-visible {
   outline: 3px solid #fff;
   outline-offset: 3px;
 }
 
 @media (max-width: 600px) {
-  #scrollTopBtn {
+  #scrollTopBtn,
+  #scrollDownBtn {
     right: 1rem;
-    bottom: 5.25rem;
+    bottom: 9rem;
     width: 38px;
     height: 38px;
   }
 
-  #scrollTopBtn svg {
+  #scrollDownBtn {
+    bottom: 5.25rem;
+  }
+
+  #scrollTopBtn svg,
+  #scrollDownBtn svg {
     width: 1.15rem;
     height: 1.15rem;
   }
@@ -1332,6 +1349,7 @@ a {
   #home .hero {
     flex: 1 1 100%;
     min-height: 60svh;
+    order: 1;
   }
 
   #home > .ceremony-card,
@@ -1341,11 +1359,13 @@ a {
     width: auto;
     margin: 0;
     align-self: stretch;
+    order: 2;
   }
 
   #home > .ceremony-hint {
     flex: 1 1 100%;
     margin-top: 0.2rem;
+    order: 3;
   }
 }
 
