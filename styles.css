@@ -1098,7 +1098,7 @@ a {
 #home .hero {
   display: grid;
   flex: 1;
-  min-height: 87svh;
+  min-height: 85svh;
   width: 100%;
   min-width: 0;
 }
