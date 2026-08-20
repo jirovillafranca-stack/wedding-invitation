@@ -1425,10 +1425,11 @@ a {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
-.dress-code-item:nth-child(5) {
-  grid-column: 1 / -1;
-  justify-self: center;
-  width: calc((100% - 3 * var(--dress-code-gap)) / 4);
+.reminders-grid {
+  --reminders-gap: 1.2rem;
+  display: grid;
+  gap: var(--reminders-gap);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .dress-code-item {
@@ -1460,13 +1461,9 @@ a {
 }
 
 @media (max-width: 1024px) {
-  .dress-code {
+  .dress-code,
+  .reminders-grid {
     grid-template-columns: 1fr;
-  }
-
-  .dress-code-item:nth-child(5) {
-    grid-column: auto;
-    width: 100%;
   }
 }
 
@@ -1545,6 +1542,10 @@ a {
 
   .dress-code {
     --dress-code-gap: 1.5rem;
+  }
+
+  .reminders-grid {
+    --reminders-gap: 1.5rem;
   }
 }
 
